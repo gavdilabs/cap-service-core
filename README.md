@@ -1,6 +1,6 @@
 # @gavdi/cap-service-core - CAP Core Library
 
-> Current version: 1.0.0
+Core library for CAP NodeJS applications
 
 ## What's in the box?
 
