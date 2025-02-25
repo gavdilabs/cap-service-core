@@ -9,14 +9,14 @@ With `@gavdi/cap-service-core` you'll get everything you need to develop a solid
 The core layer comes with the abstractions for service connections and database queries,
 giving you the option to focus on what is important for your project instead.
 
-On top of this, you'll also get what you need to ensure dependency injection in your code,
-without having to write too much boilerplate code everytime you start a new project.
+> **NOTE:** Changes with version 2.0!
+> Since we're moving towards CDS 8 (and above), we're no longer supporting 'cds-routing-handlers' as this package is deprecated.
+> We're currently in the process of moving our core layer to be working with dxfrontier's [cds-ts-dispatcher](https://www.npmjs.com/package/@dxfrontier/cds-ts-dispatcher).
+
 
 ### Features
 
-- Dependency Injection
 - External service abstractions
-- Default logging middleware for service requests
 
 ## How To Install
 
@@ -32,51 +32,7 @@ To see how to do that, see the [configuration section](##configuration).
 
 ## Configuration
 
-When bootstrapping your service in your `service.ts` file, you can include the core layer by bootstrapping using the recommended approach seen below:
-
-```typescript
-import {
-  ExternalServiceFactory,
-  InitDIContainer,
-  LoggingMiddleware,
-} from "@gavdi/cap-service-core";
-import { Service } from "@sap/cds/apis/services";
-import { createCombinedHandler, useContainer } from "cds-routing-handlers";
-import "reflect-metadata";
-import Container from "typedi";
-
-const hdl = createCombinedHandler({
-  handler: [
-    // Entity Handlers
-    `${__dirname}/api/handlers/**/*.js`,
-    `${__dirname}/api/handlers/**/*.ts`,
-
-    // Function/Action Import Handlers
-    `${__dirname}/api/functions/**/*.js`,
-    `${__dirname}/api/functions/**/*.ts`,
-    `${__dirname}/api/actions/**/*.js`,
-    `${__dirname}/api/actions/**/*.ts`,
-  ],
-  middlewares: [LoggingMiddleware],
-});
-
-export default async (srv: Service) => {
-  // Configure handlers
-  hdl(srv);
-
-  // Setup the DI Container
-  await InitDIContainer([
-    { id: "sf", value: await ExternalServiceFactory.createInstance(SF) },
-    {
-      id: "sf-tech",
-      value: await ExternalServiceFactory.createInstance(SFTech),
-    },
-  ]);
-
-  // Needed by our handler constructor for dependency injection
-  useContainer(Container);
-};
-```
+> More info on how to configure this with 'cds-ts-dispatcher' will be coming soon.
 
 ## TODOs
 

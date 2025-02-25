@@ -3,5 +3,5 @@
  */
 export type Constructible<
   Params extends readonly any[] = any[],
-  T = any
+  T = any,
 > = new (...params: Params) => T;
